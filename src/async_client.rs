@@ -110,7 +110,7 @@ impl Client {
                     name, page
                 ))
                 .unwrap();
-            c.get::<Dependencies>(&url).and_then(
+            c.get::<ReverseDependencies>(&url).and_then(
                 move |data| -> Box<Future<Item = Vec<Dependency>, Error = Error> + Send> {
                     if !data.dependencies.is_empty() {
                         deps.extend(data.dependencies);

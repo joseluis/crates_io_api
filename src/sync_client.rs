@@ -96,7 +96,7 @@ impl SyncClient {
                 "crates/{}/reverse_dependencies?per_page=100&page={}",
                 name, page
             ))?;
-            let res: Dependencies = self.get(url)?;
+            let res: ReverseDependencies = self.get(url)?;
             if !res.dependencies.is_empty() {
                 deps.extend(res.dependencies);
                 vers.extend(res.versions);

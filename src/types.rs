@@ -220,6 +220,11 @@ pub struct Dependency {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Dependencies {
     pub dependencies: Vec<Dependency>,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct ReverseDependencies {
+    pub dependencies: Vec<Dependency>,
     pub versions: Vec<Version>,
     pub meta: Meta,
 }
