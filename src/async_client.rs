@@ -195,15 +195,18 @@ impl Client {
             move |info| -> Box<
                 Future<Item = (CrateResponse, Vec<FullVersion>), Error = Error> + Send,
             > {
+                let mut versions = &vec![];
+                if let Some(ref v) = info.versions { versions = v;}
+
                 if !all_versions {
                     Box::new(
-                        c.full_version(info.versions[0].clone())
+                        c.full_version(versions[0].clone())
                             .map(|v| (info, vec![v])),
                     )
                 } else {
                     Box::new(
                         ::futures::future::join_all(
-                            info.versions
+                            versions
                                 .clone()
                                 .into_iter()
                                 .map(|v| c.full_version(v))
@@ -227,7 +230,7 @@ impl Client {
                     id: data.id,
                     name: data.name,
                     description: data.description,
-                    license: resp.versions[0].license.clone(),
+                    license: versions[0].license.clone(),
                     documentation: data.documentation,
                     homepage: data.homepage,
                     repository: data.repository,

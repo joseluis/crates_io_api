@@ -133,7 +133,7 @@ pub struct CrateResponse {
     #[serde(rename = "crate")]
     pub crate_data: Crate,
     pub keywords: Vec<Keyword>,
-    pub versions: Vec<Version>,
+    pub versions: Option<Vec<Version>>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]

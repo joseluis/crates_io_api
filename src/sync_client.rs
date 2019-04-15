@@ -166,16 +166,17 @@ impl SyncClient {
         let owners = self.crate_owners(name)?;
         let reverse_dependencies = self.crate_reverse_dependencies(name)?;
 
-        let versions = if resp.versions.is_empty() {
+        let mut resp_versions = vec![];
+        if let Some(v) = resp.versions { resp_versions = v; }
+
+        let versions = if resp_versions.is_empty() {
             vec![]
         } else if all_versions {
-            //let versions_res: Result<Vec<FullVersion>> = resp.versions
-            resp.versions
-                .into_iter()
+            resp_versions.into_iter()
                 .map(|v| self.full_version(v))
                 .collect::<Result<Vec<FullVersion>, Error>>()?
         } else {
-            let v = self.full_version(resp.versions[0].clone())?;
+            let v = self.full_version(resp_versions[0].clone())?;
             vec![v]
         };
 
